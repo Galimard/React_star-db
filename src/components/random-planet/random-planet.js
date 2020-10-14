@@ -22,8 +22,12 @@ export default class RandomPlanet extends Component {
             // rotationPeriod: null,
             // diameter: null
         };
+    }
 
+    componentDidMount() {
         this.updatePlanet();
+        this.interval = setInterval(this.updatePlanet, 3000);
+        //clearInterval(this.interval); //https://prnt.sc/uyv9lz жизненные циклы
     }
 
     onPlanetLoaded = (planet) => {
@@ -41,14 +45,14 @@ export default class RandomPlanet extends Component {
         });
     };
 
-    updatePlanet() {
+    updatePlanet = () => {
         const id = Math.floor(Math.random()*25) + 2;
 
         this.swapiService
             .getPlanet(id)
             .then(this.onPlanetLoaded)
             .catch(this.onError); //если есть асинхронная функция, м. делать кэтч
-    }
+    };
 
     render() {
         const { planet, loading, error } = this.state;
